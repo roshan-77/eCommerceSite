@@ -25,9 +25,6 @@ function ready(){
         button.addEventListener('click', addToCartClicked)
     }
 
-    var first_button = document.getElementsByClassName("first-button")[0];
-    first_button.addEventListener('click', updateCartTotal);
-
     
 }
 
@@ -86,7 +83,6 @@ function addItemsToCart(productName, productPrice){
     
 
     updateCartTotal();
-    
     //First function to remove items from the cart
     // remove_items.addEventListener('click', ()=>{
     //     totalCartItems.removeChild(cart_items);
@@ -103,7 +99,10 @@ function addItemsToCart(productName, productPrice){
         }else{
             updateCartTotal()
         }
+        getItemsTotal();
+
     }
+    getItemsTotal();
     
     //second function to remove items from the cart
     var btn = document.getElementsByClassName("remove");
@@ -129,11 +128,27 @@ function updateCartTotal(){
         total = total+(price*count)
     }
 
-    document.getElementsByClassName("total-amount")[0].innerText = total;
+    document.getElementsByClassName("total-amount")[0].innerText ="$ "+ total;
     
 }
 
 
+function getItemsTotal(){
+    var cartItems = document.querySelectorAll(".cart-items");
+    // var count = document.querySelectorAll('input');
+    var total_items= document.querySelector('.total-items');
+
+    var totalCount =0
+    for(var i=0; i<cartItems.length; i++){
+        var cartItem = cartItems[i]
+        var countElement = cartItem.querySelector('input');
+
+        var count = countElement.value
+        
+        totalCount += parseInt(count)
+    }
+    total_items.innerText = totalCount;
+}
 
 function removeCartItems(e){
     
@@ -145,6 +160,7 @@ function removeCartItems(e){
     
     totalCartItems.removeChild(it)
     updateCartTotal()
+    getItemsTotal()
 
 }
 
@@ -160,3 +176,4 @@ function removeCartItems(e){
 //         countElement.value = initialVal;
 //     }
 // }
+
