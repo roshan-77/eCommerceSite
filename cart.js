@@ -72,6 +72,7 @@ function addItemsToCart(productName, productPrice){
     count.classList.add("count");
     var input = document.createElement("input");
     input.setAttribute("value",1);
+    input.setAttribute('type','number')
     count.append(input)
     cart_items.append(count);
 
@@ -95,14 +96,20 @@ function addItemsToCart(productName, productPrice){
         if(input.value<1){
             alert("Please enter value greater than 1");
             input.value = 0;
+            getItemsTotal();
             updateCartTotal()
+            
         }else{
+            
             updateCartTotal()
+            getItemsTotal();
+            
         }
-        getItemsTotal();
 
     }
     getItemsTotal();
+    updateCartTotal()
+    
     
     //second function to remove items from the cart
     var btn = document.getElementsByClassName("remove");
@@ -116,16 +123,23 @@ function addItemsToCart(productName, productPrice){
 function updateCartTotal(){
     var totalCartItems = document.querySelector(".total-cart-items");
     var cartItems = document.getElementsByClassName("cart-items");
+    var productItems = document.getElementsByClassName('item');
 
     var total = 0;
     for (var i = 0; i<cartItems.length; i++){
         var cartItem = cartItems[i];
+        
         var countElement = cartItem.querySelector("input")
-        var priceElement = cartItem.getElementsByClassName("price")[0]
-
-        var price = parseFloat(priceElement.innerText);
+        // var priceElement = productItem.getElementsByClassName("product-price")[0]
+        var eachPrice = cartItem.querySelector(".price")
+        
+        var price = parseFloat(eachPrice.innerText);
         var count = countElement.value
-        total = total+(price*count)
+
+        var eachTotal = price*count;
+        // eachPrice.innerText = eachTotal;
+        
+        total = total+(eachTotal)
     }
 
     document.getElementsByClassName("total-amount")[0].innerText ="$ "+ total;
@@ -144,7 +158,6 @@ function getItemsTotal(){
         var countElement = cartItem.querySelector('input');
 
         var count = countElement.value
-        
         totalCount += parseInt(count)
     }
     total_items.innerText = totalCount;
@@ -164,6 +177,18 @@ function removeCartItems(e){
 
 }
 
+// function updateEachPrice(){
+//     var productPrice = document.getElementsByClassName('product-price');
+//     var input = document.querySelectorAll('input');
+//     var price = document.querySelector('.price');
+//     var cartItems = document.getElementsByClassName("cart-items");
+
+
+//     for (var i=0; i<=productPrice.length; i++){
+//         var prc = cartItems[i].price;
+//         prc.innerText = input[i]*parseFloat(productPrice[i].innerText);
+//     }
+// }
 
 //validate input field
 
@@ -176,4 +201,3 @@ function removeCartItems(e){
 //         countElement.value = initialVal;
 //     }
 // }
-
